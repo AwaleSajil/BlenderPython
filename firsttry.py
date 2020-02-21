@@ -63,9 +63,35 @@ def getCameraPose():
 
 
 
+def getMatrix():
+  import scipy.io as io
+  import numpy as np
+  points = io.loadmat('/Users/homeimac/Documents/BlenderPython-master/triangulated_points.mat')
+  length = len(points["X"][0])
+
+  cordinates = []
+  for i in range(length):
+    #extract the point
+    x = points['X'][0][i]
+    y = points['Y'][0][i]
+    z = points['Z'][0][i]
+    p = np.array([x, y, z])
+    cordinates.append(p)
+
+  return np.array(cordinates)
+
+
+def initDots(positions, size = 0.02):
+    
+    for position in positions:
+        bpy.ops.mesh.primitive_uv_sphere_add(size=size, view_align=False, enter_editmode=False, location=position, layers=(True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False))
 
 
 
-print(getCameraPose())
+
+#points = getMatrix()
+#initDots(points)
+
+clickPicture()
 
     
