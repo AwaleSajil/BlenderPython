@@ -1,6 +1,7 @@
 import bpy
 import bpy_extras
 from mathutils import Matrix
+import numpy as np
 
 #---------------------------------------------------------------
 # 3x4 P matrix from Blender camera
@@ -95,7 +96,7 @@ def get_3x4_RT_matrix_from_blender(cam):
 def get_3x4_P_matrix_from_blender(cam):
     K = get_calibration_matrix_K_from_blender(cam.data)
     RT = get_3x4_RT_matrix_from_blender(cam)
-    return K*RT, K, RT
+    return np.array(K*RT), np.array(K), np.array(RT)
 
 # ----------------------------------------------------------
 # Alternate 3D coordinates to 2D pixel coordinate projection code
@@ -123,49 +124,41 @@ if __name__ == "__main__":
     print("P")
     print(P)
 
-    print("==== Tests ====")
-    e1 = Vector((1, 0,    0, 1))
-    e2 = Vector((0, 1,    0, 1))
-    e3 = Vector((0, 0,    1, 1))
-    O  = Vector((0, 0,    0, 1))
+    # print("==== Tests ====")
+    # e1 = Vector((1, 0,    0, 1))
+    # e2 = Vector((0, 1,    0, 1))
+    # e3 = Vector((0, 0,    1, 1))
+    # O  = Vector((0, 0,    0, 1))
 
-    p1 = P * e1
-    p1 /= p1[2]
-    print("Projected e1")
-    print(p1)
-    print("proj by object_utils")
-    print(project_by_object_utils(cam, Vector(e1[0:3])))
+    # p1 = P * e1
+    # p1 /= p1[2]
+    # print("Projected e1")
+    # print(p1)
+    # print("proj by object_utils")
+    # print(project_by_object_utils(cam, Vector(e1[0:3])))
 
-    p2 = P * e2
-    p2 /= p2[2]
-    print("Projected e2")
-    print(p2)
-    print("proj by object_utils")
-    print(project_by_object_utils(cam, Vector(e2[0:3])))
+    # p2 = P * e2
+    # p2 /= p2[2]
+    # print("Projected e2")
+    # print(p2)
+    # print("proj by object_utils")
+    # print(project_by_object_utils(cam, Vector(e2[0:3])))
 
-    p3 = P * e3
-    p3 /= p3[2]
-    print("Projected e3")
-    print(p3)
-    print("proj by object_utils")
-    print(project_by_object_utils(cam, Vector(e3[0:3])))
+    # p3 = P * e3
+    # p3 /= p3[2]
+    # print("Projected e3")
+    # print(p3)
+    # print("proj by object_utils")
+    # print(project_by_object_utils(cam, Vector(e3[0:3])))
 
-    pO = P * O
-    pO /= pO[2]
-    print("Projected world origin")
-    print(pO)
-    print("proj by object_utils")
-    print(project_by_object_utils(cam, Vector(O[0:3])))
+    # pO = P * O
+    # pO /= pO[2]
+    # print("Projected world origin")
+    # print(pO)
+    # print("proj by object_utils")
+    # print(project_by_object_utils(cam, Vector(O[0:3])))
 
-    # Bonus code: save the 3x4 P matrix into a plain text file
-    # Don't forget to import numpy for this
-    nP = numpy.matrix(P)
-    numpy.savetxt("/tmp/P3x4.txt", nP)  # to select precision, use e.g. fmt='%.2f'
-    
-    
-
-camL = bpy.data.objects["Camera.L"]
-camR = bpy.data.objects["Camera.R"]
-
-KL = get_calibration_matrix_K_from_blender(camL)  
-KR = get_calibration_matrix_K_from_blender(camR)
+    # # Bonus code: save the 3x4 P matrix into a plain text file
+    # # Don't forget to import numpy for this
+    # nP = numpy.matrix(P)
+    # numpy.savetxt("/tmp/P3x4.txt", nP)  # to select precision, use e.g. fmt='%.2f'
